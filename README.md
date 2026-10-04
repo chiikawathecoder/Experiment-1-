@@ -1,2 +1,298 @@
-# Experiment-1-
-25/09/26 :P
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IridescentTech Hub | Accessible Piano</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: var(--gray);
+            line-height: 1.5;
+        }
+
+        /* Accessibility Status Panel */
+        .status-panel {
+            background: #e2e8f0;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Highly Accessible Piano Container */
+        .piano-container {
+            background: var(--dark);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 640px;
+            overflow-x: auto;
+        }
+
+        .piano-keyboard {
+            display: flex;
+            position: relative;
+            background: var(--dark);
+            height: 220px;
+            width: 100%;
+            min-width: 480px; /* Prevents keys from crushing on small mobile screens */
+        }
+
+        /* Large Touch-Target Keys for Low Digital Literacy */
+        .key {
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.1s ease;
+        }
+
+        .key.white {
+            height: 100%;
+            width: 14.28%; /* 7 white keys evenly split */
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-bottom: 6px solid #94a3b8;
+            border-radius: 0 0 6px 6px;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 15px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .key.white:active, .key.white.active {
+            background: #e2e8f0;
+            border-bottom-width: 2px;
+            padding-bottom: 11px;
+        }
+
+        .key.black {
+            height: 60%;
+            width: 8%; /* Balanced sizing for target accuracy */
+            background: #1e293b;
+            border-bottom: 4px solid #000;
+            border-radius: 0 0 4px 4px;
+            position: absolute;
+            z-index: 2;
+            color: white;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 10px;
+            font-size: 0.8rem;
+            /* Precise offset alignment fractions to overlay correctly */
+            transform: translateX(-50%);
+        }
+
+        .key.black:active, .key.black.active {
+            background: #475569;
+            border-bottom-width: 1px;
+            padding-bottom: 7px;
+        }
+
+        /* Individual specific positioning rules for accidental black keys */
+        #C4_sharp { left: 14.28%; }
+        #D4_sharp { left: 28.56%; }
+        #F4_sharp { left: 57.12%; }
+        #G4_sharp { left: 71.40%; }
+        #A4_sharp { left: 85.68%; }
+
+        .visualizer {
+            margin-top: 20px;
+            font-family: monospace;
+            background: #1e293b;
+            color: #38bdf8;
+            padding: 12px;
+            border-radius: 6px;
+            width: 100%;
+            max-width: 640px;
+            text-align: center;
+            font-size: 1.1rem;
+            min-height: 45px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>IridTech4Good</h1>
+        <p><strong>Low resource application, made just for you! (˶ᵔ ᵕ ᵔ˶) </strong> This digital piano is made for music lovers, specifically piano, who don't have any accesibility to the piano instrument because of their low-spec devices which aren't up to date with our current technology! This is for you guys, enjoy! .✦ ݁˖</p>
+    </header>
+
+    <div class="status-panel">
+        <div class="status-item"> Net Data Used :3 : 0 KB/play</div>
+        <div class="status-item"> Target of Application! ♫ : Low-Spec devices, old generation</div>
+    </div>
+
+    <!-- The Interactive Instrument Component -->
+    <div class="piano-container">
+        <div class="piano-keyboard" id="keyboard">
+            <!-- White Keys -->
+            <div class="key white" data-note="261.63" data-name="C4">C</div>
+            <div class="key white" data-note="293.66" data-name="D4">D</div>
+            <div class="key white" data-note="329.63" data-name="E4">E</div>
+            <div class="key white" data-note="349.23" data-name="F4">F</div>
+            <div class="key white" data-note="392.00" data-name="G4">G</div>
+            <div class="key white" data-note="440.00" data-name="A4">A</div>
+            <div class="key white" data-note="493.88" data-name="B4">B</div>
+
+            <!-- Black Keys (Accidentals) Offset Graphically Over the Keyboard Grid -->
+            <div class="key black" id="C4_sharp" data-note="277.18" data-name="C#4">C#</div>
+            <div class="key black" id="D4_sharp" data-note="311.13" data-name="D#4">D#</div>
+            <div class="key black" id="F4_sharp" data-note="369.99" data-name="F#4">F#</div>
+            <div class="key black" id="G4_sharp" data-note="415.30" data-name="G#4">G#</div>
+            <div class="key black" id="A4_sharp" data-note="466.16" data-name="A#4">A#</div>
+        </div>
+    </div>
+
+    <div class="visualizer" id="display">Press any piano key to begin...</div>
+
+    <script>
+        // High-performance Native Audio Pipeline Engine
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        const display = document.getElementById('display');
+        const keys = document.querySelectorAll('.key');
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new AudioContext();
+            }
+        }
+
+        // Native Synth tone generation (Zero network loading cost)
+        function playTone(frequency, name) {
+            initAudio();
+            
+            // Core Oscillator Setup
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            
+            oscillator.type = 'sine'; // Cleanest acoustic fundamental wave profile
+            oscillator.frequency.value = frequency;
+            
+            // Envelope generation parameters to mimic soft mechanical keyboard attack
+            gainNode.gain.setValueAtTime(0.4, audioCtx.currentTime);
+            // Exponential exponential decay curve to prevent audio popping artifact
+            gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.2);
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 1.2);
+
+            // Interface Accessibility feedback display loop
+            display.textContent = `Active Note Detected: ${name} (${Math.round(frequency)} Hz)`;
+        }
+
+        // Setup Event Listeners for both Desktop Clicks and Mobile Touch Interaction
+        keys.forEach(key => {
+            const triggerPlay = () => {
+                const noteFreq = parseFloat(key.getAttribute('data-note'));
+                const noteName = key.getAttribute('data-name');
+                playTone(noteFreq, noteName);
+            };
+
+            key.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                triggerPlay();
+            });
+
+            key.addEventListener('touchstart', (e) => {
+                e.preventDefault(); // Prevents double firing trigger delays on mobile viewports
+                triggerPlay();
+            });
+        });
+    if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+            .then(reg => console.log('Service Worker Registered Successfully.'))
+            .catch(err => console.log('Registration Failed: ', err));
+    });
+}
+    </script>
+</body>
+</html>  
+
+{
+  "short_name": "IridescentHub",
+  "name": "IridescentTech Creative Hub",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;utf8,<svg xmlns='http://w3.org' width='192' height='192' viewBox='0 0 192 192'><rect width='192' height='192' fill='%236366f1'/><text x='50%' y='55%' font-family='sans-serif' font-size='90' fill='white' text-anchor='middle'>🎹</text></svg>",
+      "type": "image/svg+xml",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": "./index.html",
+  "background_color": "#0f172a",
+  "theme_color": "#6366f1",
+  "display": "standalone",
+  "orientation": "portrait"
+} 
+
+const CACHE_NAME = 'iridescent-v1';
+const ASSETS = ['./index.html', './manifest.json'];
+
+self.addEventListener('install', (e) => {
+  e.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
+  );
+});
+
+self.addEventListener('fetch', (e) => {
+  e.respondWith(
+    caches.match(e.request).then((response) => response || fetch(e.request))
+  );
+});
